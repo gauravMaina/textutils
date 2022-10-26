@@ -1,12 +1,14 @@
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/Navbar";
-import TextArea from "./components/TextArea";
+import About from "./components/About";
+import Home from "./components/Home";
+
 function App() {
   return (
-    <>
-    <Navbar title="Text Utils" />
-    <TextArea/>
-    </>
+    <Routes>
+      <Route exact path="/" element={<Home />} />
+      <Route exact path="/about" element={<About />} />
+    </Routes>
   );
 }
 
