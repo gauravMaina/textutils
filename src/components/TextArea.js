@@ -1,34 +1,49 @@
-import { useState } from "react";
+import { connect } from "react-redux";
+import { SET_TEXT } from "../redux/actions";
 
-export default function TextArea({mode,showAlert}) {
-  const [text, setText] = useState("");
+function TextArea({ mode, showAlert, dispatch, text }) {
+
   const handleOnChange = (event) => {
-    setText(event.target.value);
+    dispatch({
+      type: SET_TEXT,
+      payload: {
+        text: event.target.value
+      }
+    })
   };
   const handleUpClick = () => {
     const newText = text.toUpperCase();
-    setText(newText);
-    showAlert('Text is converted into UpperCase','success')
+    dispatch({
+      type: SET_TEXT,
+      payload: { text: newText }
+    })
+    showAlert('Text is converted into UpperCase', 'success')
   };
   const handleLowClick = () => {
     const newText = text.toLowerCase();
-    setText(newText);
-    showAlert('Text is converted into LowerCase','success')
+    dispatch({
+      type: SET_TEXT,
+      payload: { text: newText }
+    })
+    showAlert('Text is converted into LowerCase', 'success')
   };
   const handleClearClick = () => {
     const newText = '';
-    setText(newText);
-    showAlert('Text is Cleared','success')
+    dispatch({
+      type: SET_TEXT,
+      payload: { text: newText }
+    })
+    showAlert('Text is Cleared', 'success')
   };
   return (
     <div className="container">
       <div className="mb-3">
-        <h1 style={{color: mode==='dark'? 'white':'black'}}>Enter the Text below to analysed</h1>
+        <h1 style={{ color: mode === 'dark' ? 'white' : 'black' }}>Enter the Text below to analysed</h1>
         <textarea
           className="form-control"
           id="exampleFormControlTextarea1"
           rows="3"
-          style={{color: mode==='dark'? 'white':'black',background:mode==='dark'?'grey':'white'}}
+          style={{ color: mode === 'dark' ? 'white' : 'black', background: mode === 'dark' ? 'grey' : 'white' }}
           value={text}
           onChange={handleOnChange}
         />
@@ -43,14 +58,18 @@ export default function TextArea({mode,showAlert}) {
         Clear Text
       </button>
       <div className="container">
-        <h2 style={{color: mode==='dark'? 'white':'black'}}>Your text summary is</h2>
-        <p style={{color: mode==='dark'? 'white':'black'}}>
-          {text.split(/\s+/).filter((element)=> element.length!==0).length} Words and {text.length} Characters
+        <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }}>Your text summary is</h2>
+        <p style={{ color: mode === 'dark' ? 'white' : 'black' }}>
+          {text.split(/\s+/).filter((element) => element.length !== 0).length} Words and {text.length} Characters
         </p>
-        <p style={{color: mode==='dark'? 'white':'black'}}>{0.008 * text.split(" ").length} mins to read</p>
-        <h1 style={{color: mode==='dark'? 'white':'black'}}>Preview</h1>
-        <p style={{color: mode==='dark'? 'white':'black'}}>{text.length>0?text:'Enter some text for Preview'}</p>
+        <p style={{ color: mode === 'dark' ? 'white' : 'black' }}>{0.008 * text.split(" ").length} mins to read</p>
+        <h1 style={{ color: mode === 'dark' ? 'white' : 'black' }}>Preview</h1>
+        <p style={{ color: mode === 'dark' ? 'white' : 'black' }}>{text.length > 0 ? text : 'Enter some text for Preview'}</p>
       </div>
     </div>
   );
 }
+const mapStatetoProps = state => {
+  return state
+}
+export default connect(mapStatetoProps)(TextArea)
